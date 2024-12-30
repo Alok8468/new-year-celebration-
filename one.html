@@ -1,0 +1,201 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy New Year 2025</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: radial-gradient(circle, #FF5733, #C70039, #900C3F);
+            color: white;
+            text-align: center;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+        h1 {
+            font-size: 4em;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+            transition: transform 1s ease-in-out, opacity 1s ease-in-out;
+        }
+        p {
+            font-size: 1.5em;
+            margin: 20px 0;
+        }
+        .countdown {
+            font-size: 2em;
+            margin-top: 20px;
+        }
+        .input-container {
+            margin-top: 20px;
+        }
+        input[type="text"] {
+            padding: 10px;
+            font-size: 1.2em;
+            border: none;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+        .button {
+            padding: 10px 20px;
+            font-size: 1.2em;
+            color: #FF5733;
+            background: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .button:hover {
+            background: #f0f0f0;
+        }
+        .falling-object {
+            position: absolute;
+            width: 50px;
+            animation: fall 4s linear infinite;
+        }
+        @keyframes fall {
+            0% {
+                top: -100px;
+                transform: rotate(0deg);
+            }
+            100% {
+                top: 100vh;
+                transform: rotate(360deg);
+            }
+        }
+        .firework {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: yellow;
+            border-radius: 50%;
+            animation: explode 2s ease-out infinite;
+        }
+        @keyframes explode {
+            0% {
+                transform: scale(0.5);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(3);
+                opacity: 0;
+            }
+        }
+        footer {
+            position: absolute;
+            bottom: 10px;
+            width: 100%;
+            text-align: center;
+            font-size: 1em;
+        }
+        .quote {
+            font-size: 1.2em;
+            margin-top: 20px;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <h1 id="greeting">Happy New Year 2025! 🎉</h1>
+    <p>Let's celebrate the new beginnings together!</p>
+    <div class="countdown" id="countdown">Loading time left...</div>
+    <div class="input-container">
+        <input type="text" id="nameInput" placeholder="Enter your name" />
+        <button onclick="submitName()" class="button">Submit Name</button>
+    </div>
+    <div id="quote" class="quote"></div>
+    <footer>&copy; 2025 New Year Celebration</footer>
+
+    <script>
+        const quotes = [
+            "The best way to predict the future is to create it. - Abraham Lincoln",
+            "Do not wait to strike till the iron is hot, but make it hot by striking. - William Butler Yeats",
+            "You miss 100% of the shots you don't take. - Wayne Gretzky",
+            "Success is not the key to happiness. Happiness is the key to success. - Albert Schweitzer",
+            "Life is what happens when you're busy making other plans. - John Lennon",
+            "The only way to do great work is to love what you do. - Steve Jobs",
+            "It always seems impossible until it’s done. - Nelson Mandela",
+            "The future belongs to those who believe in the beauty of their dreams. - Eleanor Roosevelt"
+        ];
+
+        function updateCountdown() {
+            const targetDate = new Date('January 1, 2025 00:00:00').getTime();
+            const now = new Date().getTime();
+            const diff = targetDate - now;
+
+            if (diff > 0) {
+                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+                document.getElementById('countdown').innerText =
+                    `${days} Days, ${hours} Hours, ${minutes} Minutes, ${seconds} Seconds left!`;
+            } else {
+                document.getElementById('countdown').innerText = "Happy New Year!";
+            }
+        }
+
+        function submitName() {
+            const name = document.getElementById('nameInput').value.trim();
+            const greeting = document.getElementById('greeting');
+            const quoteElement = document.getElementById('quote');
+
+            if (name) {
+                greeting.textContent = `Happy New Year 2025, ${name}! 🎉`;
+            } else {
+                greeting.textContent = "Happy New Year 2025! 🎉";
+            }
+
+            // Display a random quote
+            const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+            quoteElement.textContent = `"${randomQuote}"`;
+
+            createFallingObjects('lotus', '🌸');
+            createFallingObjects('rose', '🌹');
+            createFireworks();
+        }
+
+        function createFallingObjects(className, emoji) {
+            for (let i = 0; i < 10; i++) {
+                const object = document.createElement('div');
+                object.textContent = emoji;
+                object.className = `falling-object ${className}`;
+                object.style.left = `${Math.random() * 100}vw`;
+                object.style.animationDelay = `${Math.random() * 5}s`;
+                document.body.appendChild(object);
+
+                // Remove after animation ends
+                object.addEventListener('animationend', () => {
+                    object.remove();
+                });
+            }
+        }
+
+        function createFireworks() {
+            for (let i = 0; i < 10; i++) {
+                const firework = document.createElement('div');
+                firework.className = 'firework';
+                firework.style.left = `${Math.random() * 100}vw`;
+                firework.style.top = `${Math.random() * 50}vh`;
+                document.body.appendChild(firework);
+
+                // Remove after animation ends
+                firework.addEventListener('animationend', () => {
+                    firework.remove();
+                });
+            }
+        }
+
+        setInterval(updateCountdown, 1000);
+    </script>
+</body>
+</html>
